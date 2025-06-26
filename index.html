@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mozahidul Islam | IT Engineer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2962ff;
+            --primary-light: #448aff;
+            --secondary: #0d47a1;
+            --accent: #ff6d00;
+            --whatsapp: #25D366;
+            --light: #f5f7fa;
+            --dark: #263238;
+            --gray: #607d8b;
+            --light-gray: #cfd8dc;
+        }
+
+        /* Fixed Blue Bar */
+        .top-blue-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: var(--secondary);
+            z-index: 1000;
+        }
+
+        body {
+            padding-top: 15px;
+            background-color: var(--light);
+            color: var(--dark);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 120px 0 80px;
+            position: relative;
+            background: linear-gradient(135deg, rgba(41, 98, 255, 0.05) 0%, rgba(255, 109, 0, 0.05) 100%);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            animation: fadeInDown 1s ease;
+        }
+
+        .title-highlight {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 30px auto;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: zoomIn 1s ease;
+        }
+
+        .social-links {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            animation: fadeIn 1s ease;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background: white;
+            color: var(--primary);
+            font-size: 1.3rem;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            text-decoration: none !important;
+            border: none !important;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-icon.instagram-icon {
+            background: radial-gradient(circle at 33% 100%, #fdf497 0%, #fdf497 5%, #e07f76 45%, #e20909 60%, #285AEB 90%);
+            color: rgb(245, 239, 239);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            background: var(--primary);
+            color: white;
+        }
+
+        .social-icon.instagram-icon:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            background: radial-gradient(circle at 33% 100%, #fdf497 0%, #fdf497 5%, #db3627 45%, #d6249f 60%, #285AEB 90%);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 28px;
+            margin: 10px 8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            animation: fadeInUp 1s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(41, 98, 255, 0.3);
+            background: var(--primary-light);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn-whatsapp {
+            background: var(--whatsapp);
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-resume {
+            background: var(--accent);
+        }
+
+        .btn-resume:hover {
+            background: #e65100;
+            box-shadow: 0 5px 15px rgba(255, 109, 0, 0.4);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--secondary);
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .skill-category {
+            flex: 1 1 300px;
+            max-width: 350px;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: translateY(20px);
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px) scale(1.03) !important;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+            padding: 35px 30px;
+        }
+
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(41, 98, 255, 0.03) 0%, rgba(255, 109, 0, 0.03) 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .skill-category:hover::before {
+            opacity: 1;
+        }
+
+        .skill-category.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .skill-category h3 {
+            margin-bottom: 20px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Blinking Icons */
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+
+        .skill-category h3 i.fa-network-wired,
+        .skill-category h3 i.fa-handshake,
+        .skill-category h3 i.fa-language {
+            animation: blink 2s infinite;
+        }
+
+        .skill-category:hover h3 i {
+            animation: none;
+            color: var(--accent) !important;
+        }
+
+        .skill-category h3 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        /* Updated Skill Bar Styles */
+        .skill-item {
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: scale(1.02);
+        }
+
+        .skill-item:hover .skill-name {
+            color: var(--primary);
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .skill-name span:last-child {
+            color: var(--accent);
+            font-weight: 600;
+            transition: all 0.5s ease;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .skill-level {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 4px;
+            width: 0;
+            transition: width 1.5s ease-out, background 0.3s ease;
+            position: relative;
+        }
+
+        .skill-level::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                            rgba(255,255,255,0.8) 0%, 
+                            rgba(255,255,255,0) 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Hover Effects */
+        .skill-item:hover .skill-bar {
+            transform: scaleY(1.2);
+            box-shadow: 0 2px 8px rgba(41, 98, 255, 0.2);
+        }
+
+        .skill-item:hover .skill-level {
+            background: linear-gradient(to right, var(--accent), var(--primary));
+        }
+
+        .skill-item:hover .skill-level::after {
+            opacity: 0.3;
+            animation: shine 1.5s infinite;
+        }
+
+        .skill-item:hover .skill-name span:last-child {
+            transform: scale(1.2);
+            color: var(--secondary);
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Pulse animation for percentage */
+        @keyframes pulse-percent {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .skill-category:nth-child(1) { transition-delay: 0.1s; }
+        .skill-category:nth-child(2) { transition-delay: 0.3s; }
+        .skill-category:nth-child(3) { transition-delay: 0.5s; }
+
+        /* Experience Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: var(--light-gray);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .timeline-item.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            top: 30px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            right: -10px;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            position: relative;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            transform-origin: center top;
+        }
+
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .timeline-content:hover::after {
+            transform: scaleX(1);
+        }
+
+        .timeline-item:hover::after {
+            transform: scale(1.2);
+            background: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 109, 0, 0.2);
+        }
+
+        .timeline-position {
+            position: relative;
+            display: inline-block;
+        }
+
+        .timeline-position::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .timeline-content:hover .timeline-position::after {
+            width: 100%;
+        }
+
+        .timeline-date {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .timeline-company {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .timeline-position {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        /* Projects Section */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        @media (max-width: 992px) {
+            .projects {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-card {
+                max-width: 100%;
+            }
+        }
+
+        .project-card.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-card h3 {
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .project-card p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tech-tag {
+            background: rgba(41, 98, 255, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .project-links .btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+        }
+
+        .project-card:hover .tech-tag {
+            background: rgba(41, 98, 255, 0.2);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Floating WhatsApp Button */
+        .float-call {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--whatsapp);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.3);
+            z-index: 100;
+            transition: all 0.3s;
+            text-decoration: none;
+            animation: pulse 2s infinite;
+        }
+
+        .float-call:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            animation: none;
+            background: #128C7E;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            section h2 {
+                font-size: 2rem;
+            }
+            
+            .timeline::before {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 21px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 100px 0 40px;
+            }
+            
+            .float-call {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-blue-bar"></div>
+    
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/+966573008727" class="float-call">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <div class="container">
+        <header>
+            <img src="Mozahid.jpeg" alt="Profile Image" class="profile-img">
+            <h1>Mozahidul <span class="title-highlight">Islam</span></h1>
+            <p>IT Engineer | Network Management | System Support Specialist</p>
+            
+            <div class="social-links">
+                <a href="tel:+966573008727" title="Call Me" class="social-icon"><i class="fas fa-phone"></i></a>
+                <a href="https://www.linkedin.com/in/imozahid?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B9IJodCfaQ0acpdKOaQIUtA%3D%3D" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/https_mozahid/" class="social-icon instagram-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="https://wa.me/+966573008727" class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Contact Me
+                </a>
+                <a href="Mozahid_IT_Engineer.pdf" download class="btn btn-resume">
+                    <i class="fas fa-download"></i> Download CV
+                </a>
+            </div>
+        </header>
+
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p>IT professional with 2+ years in technical support services, currently contributing to operational excellence at <strong>Reben Petroleum, KSA</strong>.</p>
+                <p>My expertise includes network monitoring, firewall management, and providing comprehensive technical support across multiple locations. I thrive in collaborative environments and am committed to continuous learning to stay at the forefront of technology.</p>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Technical & Soft Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3><i class="fas fa-network-wired"></i> Networking</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Network Monitoring Tools</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 90%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Network Security</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Firewall Management</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-handshake"></i> Team Collaboration</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Problem-solving</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Accountability</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 80%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Communication</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 95%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-language"></i> Language</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Arabic</span>
+                            <span>40%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 40%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>English</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 95%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Hindi/Urdu</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="--target-width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Professional Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">July 2024 - Present</div>
+                        <div class="timeline-company">Masaken Al-Majdal Petroleum Services (REBEN) Riyadh</div>
+                        <div class="timeline-position">IT Executive</div>
+                        <ul>
+                            <li>Manage IT operations across 65+ fuel stations, ensuring 99.9% system uptime</li>
+                            <li>Implemented network monitoring system reducing incident response time by 35%</li>
+                            <li>Configure and maintained FortiGate firewalls and Windows Server 2019 infrastructure</li>
+                            <li>Provide technical support for Fuel Management Systems (FMS) and POS networks</li>
+                            <li>Conducte staff training sessions improving overall system proficiency by 40%</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023 - 2024</div>
+                        <div class="timeline-company">Tech Mahindra - Noida</div>
+                        <div class="timeline-position">Desktop Support Engineer</div>
+                       <ul>
+                            <li>Achieved 40% reduction in incident response time through optimized troubleshooting processes</li>
+                            <li>Maintained 95% system availability through proactive monitoring and remote support</li>
+                            <li>Documented technical procedures reducing onboarding time for new team members by 30%</li>
+                            <li>Specialized in Citrix, ServiceNow, and LogMeIn support solutions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023 - 2023</div>
+                        <div class="timeline-company">Jetking Tech Lab</div>
+                        <div class="timeline-position">Internship</div>
+                        <ul>
+                            <li>Gained hands-on experience in PC assembly and troubleshooting</li>
+                            <li>Performed Windows installations and basic network configurations (IPv4, DHCP, DNS)</li>
+                            <li>Assisted in maintaining lab equipment and troubleshooting hardware issues</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Technical Projects</h2>
+            <div class="projects">
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Cloud Architecture" class="project-img">
+                    <div class="project-content">
+                        <h3>Cloud Migration Platform</h3>
+                        <div class="tech-tags">
+                            <span class="tech-tag">AWS</span>
+                            <span class="tech-tag">Terraform</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Kubernetes</span>
+                        </div>
+                        <p>Designed and implemented a platform for automated migration of legacy systems to cloud infrastructure, reducing migration time by 60%.</p>
+                        <div class="project-links">
+                            <a href="#" class="btn">
+                                <i class="fas fa-eye"></i> Case Study
+                            </a>
+                            <a href="#" class="btn" style="background: var(--secondary);">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=765&q=80" alt="DevOps" class="project-img">
+                    <div class="project-content">
+                        <h3>CI/CD Automation System</h3>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Jenkins</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Bash</span>
+                            <span class="tech-tag">GitHub Actions</span>
+                        </div>
+                        <p>Created an automated build and deployment pipeline that reduced release cycles from weekly to daily deployments.</p>
+                        <div class="project-links">
+                            <a href="#" class="btn">
+                                <i class="fas fa-eye"></i> Case Study
+                            </a>
+                            <a href="#" class="btn" style="background: var(--secondary);">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Security" class="project-img">
+                    <div class="project-content">
+                        <h3>Security Monitoring Tool</h3>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">ELK Stack</span>
+                            <span class="tech-tag">SIEM</span>
+                            <span class="tech-tag">AWS GuardDuty</span>
+                        </div>
+                        <p>Developed a real-time security monitoring system that reduced incident response time by 45% through automated alerts.</p>
+                        <div class="project-links">
+                            <a href="#" class="btn">
+                                <i class="fas fa-eye"></i> Case Study
+                            </a>
+                            <a href="#" class="btn" style="background: var(--secondary);">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <p>Open to exciting opportunities—freelance, consulting, or full-time. Let's talk.</p>
+                <div class="action-buttons" style="margin-top: 40px;">
+                    <a href="mailto:mozahid24k@gmail.com" class="btn" style="border-radius: 5px;">
+                        <i class="fas fa-envelope"></i> Email Me
+                    </a>
+                    <a href="tel:+966573008727" class="btn" style="border-radius: 5px;">
+                        <i class="fas fa-phone"></i> Call Me
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 Mozahidul Islam. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // NEW CODE - Skill bar hover effects
+            const skillItems = document.querySelectorAll('.skill-item');
+            
+            skillItems.forEach(item => {
+                const percentElement = item.querySelector('.skill-name span:last-child');
+                const originalPercent = percentElement.textContent;
+                
+                item.addEventListener('mouseenter', function() {
+                    // Animate the percentage number
+                    let current = 0;
+                    const target = parseInt(originalPercent);
+                    const increment = target / 20;
+                    const interval = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            clearInterval(interval);
+                            current = target;
+                        }
+                        percentElement.textContent = Math.round(current) + '%';
+                    }, 20);
+                    
+                    // Add pulse animation
+                    percentElement.style.animation = 'pulse-percent 0.5s 2';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    // Reset percentage
+                    percentElement.textContent = originalPercent;
+                    percentElement.style.animation = '';
+                });
+            });
+
+            // YOUR EXISTING CODE - Animation on scroll
+            const animateOnScroll = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        
+                        if (entry.target.classList.contains('skill-category')) {
+                            const skillBars = entry.target.querySelectorAll('.skill-level');
+                            skillBars.forEach(bar => {
+                                const targetWidth = getComputedStyle(bar).getPropertyValue('--target-width');
+                                bar.style.width = targetWidth;
+                            });
+                        }
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.skill-category, .timeline-item, .project-card').forEach(element => {
+                animateOnScroll.observe(element);
+            });
+
+            // YOUR EXISTING CODE - Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
