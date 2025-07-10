@@ -59,16 +59,16 @@
         /* Header Styles */
         header {
             text-align: center;
-            padding: 120px 0 80px;
+            padding: 60px 0 10px;
             position: relative;
             background: linear-gradient(135deg, rgba(41, 98, 255, 0.05) 0%, rgba(255, 109, 0, 0.05) 100%);
         }
 
         header h1 {
             font-size: 3rem;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             color: var(--secondary);
-            animation: fadeInDown 1s ease;
+            animation: fadeInDown 0.5s ease;
         }
 
         .title-highlight {
@@ -85,15 +85,58 @@
             animation: fadeIn 1.5s ease;
         }
 
+        /* Continuous Glowing Profile Image */
         .profile-img {
             width: 180px;
             height: 180px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 30px auto;
+            margin: 20px auto;
             border: 5px solid white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            animation: zoomIn 1s ease;
+            box-shadow: 0 0 20px rgba(41, 98, 255, 0.5);
+            animation: zoomIn 1s ease, pulse-glow 2s infinite ease-in-out;
+            position: relative;
+            transition: all 0.3s ease;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .profile-img::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            z-index: -1;
+            opacity: 0.4;
+            animation: pulse-glow-before 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 15px rgba(41, 98, 255, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(41, 98, 255, 0.8); }
+            100% { box-shadow: 0 0 15px rgba(41, 98, 255, 0.5); }
+        }
+
+        @keyframes pulse-glow-before {
+            0% { opacity: 0.3; transform: scale(0.95); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+            100% { opacity: 0.3; transform: scale(0.95); }
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            animation: none;
+            box-shadow: 0 0 30px rgba(41, 98, 255, 0.9);
+        }
+
+        .profile-img:hover::before {
+            animation: none;
+            opacity: 0.7;
+            transform: scale(1.05);
         }
 
         .social-links {
@@ -203,7 +246,7 @@
             width: 80px;
             height: 4px;
             background: linear-gradient(to right, var(--primary), var(--accent));
-            margin: 15px auto;
+            margin: 5px auto;
             border-radius: 2px;
         }
 
