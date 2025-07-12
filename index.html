@@ -68,7 +68,7 @@
             font-size: 3rem;
             margin-bottom: 15px;
             color: var(--secondary);
-            animation: fadeInDown 1s ease;
+            animation: fadeInDown 0.5s ease;
         }
 
         .title-highlight {
@@ -77,12 +77,34 @@
             -webkit-text-fill-color: transparent;
         }
 
-        header p {
+        /* Typewriter styles */
+        .typewriter {
+            display: inline-block;
+            position: relative;
             font-size: 1.2rem;
             color: var(--gray);
             max-width: 700px;
             margin: 0 auto 30px;
-            animation: fadeIn 1.5s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .typing {
+            border-right: 2px solid var(--accent);
+            animation: blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent) }
+        }
+
+        .profile-img-container {
+            position: relative;
+            width: 190px;
+            height: 190px;
+            margin: 30px auto;
+            animation: zoomIn 0.5s ease;
         }
 
         .profile-img {
@@ -90,10 +112,35 @@
             height: 180px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 30px auto;
             border: 5px solid white;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            animation: zoomIn 1s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-img-glow {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            z-index: 0;
+            opacity: 0.7;
+            filter: blur(10px);
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
         }
 
         .social-links {
@@ -764,9 +811,12 @@
 
     <div class="container">
         <header>
-            <img src="Mozahid.jpeg" alt="Profile Image" class="profile-img">
+            <div class="profile-img-container">
+                <img src="Mozahid.jpeg" alt="Profile Image" class="profile-img">
+                <div class="profile-img-glow"></div>
+            </div>
             <h1>Mozahidul <span class="title-highlight">Islam</span></h1>
-            <p>IT Engineer | Network Management | System Support Specialist</p>
+            <div class="typewriter" id="typewriter"></div>
             
             <div class="social-links">
                 <a href="tel:+966573008727" title="Call Me" class="social-icon"><i class="fas fa-phone"></i></a>
@@ -1026,6 +1076,26 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Typewriter effect
+            const typewriterText = "IT Engineer | Network Management | System Support Specialist";
+            const typewriterElement = document.getElementById('typewriter');
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < typewriterText.length) {
+                    typewriterElement.innerHTML += typewriterText.charAt(i);
+                    typewriterElement.classList.add('typing');
+                    i++;
+                    setTimeout(typeWriter, 100);
+                } else {
+                    // Remove cursor after typing is complete
+                    typewriterElement.classList.remove('typing');
+                }
+            }
+            
+            // Start the typewriter effect after a short delay
+            setTimeout(typeWriter, 1000);
+
             // NEW CODE - Skill bar hover effects
             const skillItems = document.querySelectorAll('.skill-item');
             
