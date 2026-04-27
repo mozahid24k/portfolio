@@ -620,6 +620,20 @@
             /* Refine images for smaller mobile */
             .home-img img { width: 75%; max-width: 280px; }
             .about-video { width: 100%; max-width: 100%; }
+
+            /* Fix paragraph font sizes on mobile */
+            .home-content p {
+                font-size: 1.75rem;
+                line-height: 1.75;
+                margin: 1.2rem 0;
+            }
+            .about-content h3 { font-size: 2.1rem; }
+            .about-content p {
+                font-size: 1.75rem;
+                line-height: 1.9;
+                margin: 1.5rem 0 2.5rem;
+                word-spacing: 0.05em;
+            }
             
             /* Timeline adjustments for mobile */
             .timeline::before { left: 0; width: 2px; }
@@ -637,6 +651,10 @@
             .projects-grid { grid-template-columns: 1fr; }
             .header { padding: 1.5rem 5%; }
             .logo { font-size: 2.6rem; }
+
+            /* Keep paragraphs readable on very small screens */
+            .home-content p { font-size: 1.8rem; line-height: 1.8; }
+            .about-content p { font-size: 1.8rem; line-height: 1.95; }
         }
     </style>
 </head>
