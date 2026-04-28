@@ -21,8 +21,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     
@@ -168,7 +166,8 @@
         }
         span { color: var(--main-color); }
         .home-content p {
-            font-size: clamp(1.5rem, 1.8vw, 1.9rem);
+            font-size: 1.7rem;
+            line-height: 1.85;
             margin: 1.5rem 0;
             color: var(--text-muted);
             font-weight: 500;
@@ -245,12 +244,45 @@
         .about-content { 
             flex: 1.2;
         }
-        .about-content h3 { font-size: clamp(2rem, 2.5vw, 2.4rem); margin: 0.5rem 0; }
+        .about-content h3 { font-size: clamp(2rem, 2.5vw, 2.4rem); margin: 0.5rem 0 1.5rem; }
         .about-content p {
-            font-size: clamp(1.5rem, 1.8vw, 1.8rem);
-            margin: 2rem 0 3rem;
-            line-height: 1.6;
+            font-size: 1.7rem;
+            margin: 0 0 1.5rem;
+            line-height: 1.85;
             color: var(--text-muted);
+        }
+
+        /* About stats row */
+        .about-stats {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0 2rem;
+        }
+        .stat-chip {
+            background: white;
+            border: 1.5px solid rgba(0,127,115,0.25);
+            border-radius: 1.2rem;
+            padding: 1rem 1.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            box-shadow: 0 2px 8px rgba(0,127,115,0.08);
+            flex: 1 1 auto;
+            min-width: 90px;
+        }
+        .stat-chip strong {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--main-color);
+        }
+        .stat-chip span {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-color);
         }
 
         /* ===== SERVICES ===== */
@@ -550,46 +582,42 @@
         }
 
         /* ========== RESPONSIVE DESIGN ========== */
-        
-        /* Large Laptops / Desktops */
-        @media (max-width: 1200px) { 
-            html { font-size: 58%; } 
+
+        /* Large screens */
+        @media (max-width: 1200px) {
+            html { font-size: 58%; }
             .home, .about { gap: 3rem; }
         }
 
-        /* Tablets / iPads (Portrait & Landscape) */
+        /* Tablets */
         @media (max-width: 991px) {
+            html { font-size: 56%; }
             .header { padding: 2rem 5%; }
             section { padding: 8rem 5% 2rem; }
-            
-            /* Change flex direction for Home and About to stack */
+
             .home, .about {
                 flex-direction: column;
                 text-align: center;
-                gap: 4rem;
+                gap: 3rem;
             }
             .home-img { margin-top: 3rem; order: 1; width: 100%; }
-            .home-content { order: 2; margin-top: 0; }
-            
-            /* Reverse About section to keep video above text */
+            .home-content { order: 2; }
             .about { flex-direction: column-reverse; }
             .about-video-container { width: 100%; }
-            
-            /* Optimize sizes for tablet */
-            .home-img img { width: 65%; max-width: 320px; }
-            .about-video { width: 85%; max-width: 420px; }
-            
+            .home-img img { width: 60%; max-width: 300px; }
+            .about-video { width: 80%; max-width: 400px; }
             .about-content .heading { text-align: center !important; }
             .about-content { padding: 0; }
-            
+            .about-stats { justify-content: center; }
             .input-box input { width: 100%; }
+            .social-media { display: flex; justify-content: center; flex-wrap: wrap; }
         }
 
-        /* Mobile Devices */
+        /* Mobile */
         @media (max-width: 768px) {
+            html { font-size: 57%; }
             #menu-icon { display: block; }
-            
-            /* Mobile Navigation */
+
             .navbar {
                 position: absolute;
                 top: 100%;
@@ -608,7 +636,7 @@
             .navbar a {
                 display: block;
                 padding: 1.5rem;
-                font-size: 2.2rem;
+                font-size: 2rem;
                 margin-left: 0;
                 text-align: center;
                 width: 100%;
@@ -618,27 +646,39 @@
                 color: white;
             }
             .navbar.active { right: 0; }
-            
-            /* Refine images for smaller mobile */
-            .home-img img { width: 75%; max-width: 280px; }
-            .about-video { width: 95%; max-width: 380px; }
-            
-            /* Timeline adjustments for mobile */
+
+            .home-img img { width: 70%; max-width: 260px; }
+            .about-video { width: 100%; max-width: 100%; }
+
+            .home-content p,
+            .about-content p {
+                font-size: 1.55rem;
+                line-height: 1.85;
+                margin: 0 0 1.2rem;
+            }
+            .about-content h3 { font-size: 2rem; }
+            .stat-chip strong { font-size: 2rem; }
+            .stat-chip span { font-size: 1.15rem; }
+
             .timeline::before { left: 0; width: 2px; }
             .timeline-item { padding-left: 2.5rem; }
             .timeline-item::before { left: -0.7rem; width: 1.4rem; height: 1.4rem; }
             .timeline-content { padding: 2rem 1.5rem; }
         }
 
-        /* Very Small Devices */
+        /* Small phones */
         @media (max-width: 480px) {
-            html { font-size: 50%; }
-            .home-img img { width: 85%; max-width: 250px; border-width: 3px; }
-            .about-video { width: 100%; border-width: 2px; border-radius: 1.5rem; }
-            .skill-card { padding: 2rem; }
-            .projects-grid { grid-template-columns: 1fr; }
+            html { font-size: 57%; }
             .header { padding: 1.5rem 5%; }
             .logo { font-size: 2.6rem; }
+            .home-img img { width: 75%; max-width: 240px; border-width: 3px; }
+            .about-video { border-width: 2px; border-radius: 1.5rem; }
+            .skill-card { padding: 2rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .about-stats { gap: 1rem; }
+            .stat-chip { padding: 0.9rem 1.2rem; min-width: 80px; }
+            .stat-chip strong { font-size: 1.9rem; }
+            .stat-chip span { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -665,7 +705,7 @@
         <div class="home-content">
             <h1>Mozahidul <span>Islam</span></h1>
             <h3>I'm a <span class="multiple-text"></span></h3>
-            <p>IT Engineer with 2+ years of enterprise experience | Network management, firewall administration, and system reliability expert. Driving 99.9% uptime across 65+ fuel stations in <strong>KSA</strong>.</p>
+            <p>IT Engineer with <strong>2+ years</strong> of enterprise experience. Specialist in network management, firewall administration &amp; system reliability — driving <strong>99.9% uptime</strong> across 65+ fuel stations in <strong>KSA</strong>.</p>
             <div class="social-media">
                 <a href="tel:+966573008727" title="Call Me"><i class="fas fa-phone"></i></a>
                 <a href="mailto:mozahid24k@email.com" title="Email Me"><i class="fas fa-envelope"></i></a>
@@ -680,7 +720,13 @@
         <div class="about-content">
             <h2 class="heading" style="text-align: left;">About <span>Me</span></h2>
             <h3><span>IT Engineer & Network Specialist</span></h3>
-            <p>Currently IT Executive at Masaken Al-Majdal Petroleum (REBEN) in Riyadh, leading IT infrastructure across 65+ fuel stations. My core expertise includes network monitoring, FortiGate firewalls, Windows Server, and FMS/POS support. I've reduced incident response time by 35% and implemented proactive monitoring solutions that ensure continuous business operations. Passionate about robust, secure, and scalable IT ecosystems.</p>
+            <p>IT Executive at <strong>Masaken Al-Majdal Petroleum (REBEN)</strong>, Riyadh — leading IT infrastructure across 65+ fuel stations. Core expertise: network monitoring, FortiGate firewalls, Windows Server, and FMS/POS support.</p>
+            <div class="about-stats">
+                <div class="stat-chip"><strong>65+</strong><span>Fuel Stations</span></div>
+                <div class="stat-chip"><strong>35%</strong><span>Faster Response</span></div>
+                <div class="stat-chip"><strong>99.9%</strong><span>Uptime</span></div>
+            </div>
+            <p>Passionate about building robust, secure, and scalable IT ecosystems that ensure continuous business operations.</p>
             <a href="#contact" class="btn">Let's Connect</a>
         </div>
         <div class="about-video-container">
@@ -841,6 +887,8 @@
         <p class="copyright">© Mozahidul Islam — All Rights Reserved</p>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"></script>
+
     <script>
         // Mobile menu toggle
         let menuIcon = document.querySelector('#menu-icon');
@@ -881,13 +929,15 @@
         };
 
         // Typing animation
-        new Typed('.multiple-text', {
-            strings: ['IT Engineer', 'Network Specialist', 'System Administrator', 'Cloud Consultant', 'Developer'],
-            typeSpeed: 80,
-            backSpeed: 80,
-            backDelay: 1200,
-            loop: true
-        });
+        if (typeof Typed !== 'undefined') {
+            new Typed('.multiple-text', {
+                strings: ['IT Engineer', 'Network Specialist', 'System Administrator', 'Cloud Consultant', 'Developer'],
+                typeSpeed: 80,
+                backSpeed: 80,
+                backDelay: 1200,
+                loop: true
+            });
+        }
 
         // GSAP + ScrollTrigger animations
         gsap.registerPlugin(ScrollTrigger);
