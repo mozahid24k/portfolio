@@ -135,7 +135,7 @@
         .home-img img {
             width: 100%;
             max-width: 420px;
-            aspect-ratio: 1 / 1; /* Forces perfect square/circle, fixes squishing */
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 50%;
             border: 4px solid rgba(0, 127, 115, 0.3);
@@ -226,8 +226,8 @@
         .about-video {
             width: 100%;
             max-width: 450px;
-            height: auto; /* Adapts properly to video format */
-            object-fit: cover; /* Ensures no awkward black bars if forced */
+            height: auto;
+            object-fit: cover;
             border-radius: 2rem;
             border: 3px solid var(--main-color);
             box-shadow: 0 0 25px rgba(0, 127, 115, 0.4);
@@ -680,6 +680,115 @@
             .stat-chip strong { font-size: 1.9rem; }
             .stat-chip span { font-size: 1.1rem; }
         }
+
+        /* ===== FLOATING WHATSAPP ===== */
+        .wa-float {
+            position: fixed;
+            bottom: 3.2rem;
+            right: 3.2rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(16px) scale(0.88);
+            transition: opacity 0.38s ease, visibility 0.38s ease,
+                        transform 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .wa-float.wa-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        .wa-tip {
+            background: #0a0c12;
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 0.6rem 1.4rem;
+            border-radius: 99px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.22s ease, transform 0.22s ease;
+            position: relative;
+        }
+        .wa-tip::after {
+            content: '';
+            position: absolute;
+            top: 100%; left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #0a0c12;
+        }
+        .wa-float:hover .wa-tip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .wa-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--main-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 22px rgba(0, 127, 115, 0.45);
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        box-shadow 0.3s ease;
+        }
+        .wa-btn i {
+            font-size: 3rem;
+            color: #fff;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .wa-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 32px rgba(0, 127, 115, 0.55);
+        }
+        .wa-btn::before,
+        .wa-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(0, 127, 115, 0.32);
+            animation: waPulse 2.5s ease-out infinite;
+            pointer-events: none;
+        }
+        .wa-btn::after {
+            background: rgba(0, 127, 115, 0.16);
+            animation-delay: 0.9s;
+        }
+        @keyframes waPulse {
+            0%   { transform: scale(1);   opacity: 0.8; }
+            100% { transform: scale(2.4); opacity: 0;   }
+        }
+        .wa-dot {
+            position: absolute;
+            top: 3px; right: 3px;
+            width: 13px; height: 13px;
+            background: #ff3b3b;
+            border-radius: 50%;
+            border: 2.5px solid #fff;
+            animation: waDot 2.2s ease-in-out infinite;
+            z-index: 2;
+        }
+        @keyframes waDot {
+            0%, 100% { opacity: 1; transform: scale(1);    }
+            50%       { opacity: 0.5; transform: scale(0.8); }
+        }
+        @media (max-width: 768px) {
+            .wa-float { bottom: 2.2rem; right: 2.2rem; }
+            .wa-btn   { width: 52px; height: 52px; }
+            .wa-btn i { font-size: 2.6rem; }
+        }
     </style>
 </head>
 <body>
@@ -887,6 +996,15 @@
         <p class="copyright">© Mozahidul Islam — All Rights Reserved</p>
     </footer>
 
+    <!-- Floating WhatsApp -->
+    <div class="wa-float">
+        <div class="wa-tip">Chat on WhatsApp</div>
+        <a href="https://wa.me/+966573008727" target="_blank" rel="noopener noreferrer" class="wa-btn" aria-label="Chat on WhatsApp">
+            <i class="bx bxl-whatsapp"></i>
+            <span class="wa-dot"></span>
+        </a>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"></script>
 
     <script>
@@ -908,7 +1026,7 @@
             });
         });
 
-        // Active link on scroll
+        // Active link on scroll + WhatsApp visibility
         window.onscroll = () => {
             menuIcon.classList.remove('bx-x');
             navbar.classList.remove('active');
@@ -926,6 +1044,13 @@
                     link.classList.add('active');
                 }
             });
+            // Show WhatsApp float after About section
+            const aboutEl = document.getElementById('about');
+            if (aboutEl && window.scrollY > aboutEl.offsetTop + aboutEl.offsetHeight * 0.3) {
+                document.querySelector('.wa-float').classList.add('wa-visible');
+            } else {
+                document.querySelector('.wa-float').classList.remove('wa-visible');
+            }
         };
 
         // Typing animation
