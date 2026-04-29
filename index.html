@@ -685,7 +685,7 @@
         .wa-float {
             position: fixed;
             bottom: 3.2rem;
-            right: 0.1rem;
+            right: 0.5rem;           /* ← closer to right edge */
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -785,9 +785,29 @@
             50%       { opacity: 0.5; transform: scale(0.8); }
         }
         @media (max-width: 768px) {
-            .wa-float { bottom: 2.2rem; right: 0.1rem; }
+            .wa-float { bottom: 2.2rem; right: 0.1rem; }   /* ← closer on mobile */
             .wa-btn   { width: 52px; height: 52px; }
             .wa-btn i { font-size: 2.6rem; }
+        }
+
+        /* ===== FORM SUCCESS MESSAGE ===== */
+        .form-message {
+            font-size: 1.6rem;
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.2rem 2rem;
+            border-radius: 1.2rem;
+            font-weight: 600;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+        .form-message.success {
+            background: rgba(0, 127, 115, 0.12);
+            color: var(--main-color);
+        }
+        .form-message.error {
+            background: rgba(255, 59, 59, 0.08);
+            color: #d32f2f;
         }
     </style>
 </head>
@@ -982,6 +1002,7 @@
             </div>
             <textarea name="message" rows="8" placeholder="Your Message" required></textarea>
             <button type="submit" class="btn">Send Message</button>
+            <div class="form-message" id="formMessage"></div>
         </form>
     </section>
 
@@ -1018,7 +1039,7 @@
             navbar.classList.toggle('active');
         }
 
-        // Close menu when a link is clicked (Mobile UX improvement)
+        // Close menu when a link is clicked
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 menuIcon.classList.remove('bx-x');
@@ -1044,7 +1065,6 @@
                     link.classList.add('active');
                 }
             });
-            // Show WhatsApp float after About section
             const aboutEl = document.getElementById('about');
             if (aboutEl && window.scrollY > aboutEl.offsetTop + aboutEl.offsetHeight * 0.3) {
                 document.querySelector('.wa-float').classList.add('wa-visible');
@@ -1067,7 +1087,6 @@
         // GSAP + ScrollTrigger animations
         gsap.registerPlugin(ScrollTrigger);
 
-        // Reveal sections with fade-up
         gsap.utils.toArray('section').forEach((section, i) => {
             gsap.fromTo(section, 
                 { opacity: 0, y: 40 },
@@ -1085,7 +1104,6 @@
             );
         });
 
-        // Staggered service cards
         gsap.fromTo('.services-box', 
             { opacity: 0, y: 50 },
             {
@@ -1100,7 +1118,6 @@
             }
         );
 
-        // Staggered skill cards
         gsap.fromTo('.skill-card', 
             { opacity: 0, x: -30 },
             {
@@ -1115,7 +1132,6 @@
             }
         );
 
-        // Timeline line draw + timeline items animation
         const timeline = document.querySelector('.timeline');
         gsap.fromTo(timeline, 
             { scaleY: 0, transformOrigin: 'top' },
@@ -1142,7 +1158,6 @@
             }
         );
 
-        // Staggered project cards
         gsap.fromTo('.project-card', 
             { opacity: 0, y: 40 },
             {
@@ -1157,7 +1172,6 @@
             }
         );
 
-        // Skill counter (number counting up)
         const skillNumbers = document.querySelectorAll('.skill-number');
         function animateNumbers() {
             skillNumbers.forEach(el => {
@@ -1177,7 +1191,6 @@
             });
         }
 
-        // Trigger skill counters when skill section enters viewport
         const skillSection = document.querySelector('#skills');
         ScrollTrigger.create({
             trigger: skillSection,
@@ -1186,7 +1199,6 @@
             once: true
         });
 
-        // Animate progress bars when they become visible
         const progressBars = document.querySelectorAll('.progress-fill');
         function animateProgressBars() {
             progressBars.forEach(bar => {
@@ -1200,11 +1212,56 @@
         window.addEventListener('scroll', animateProgressBars, { passive: true });
         window.addEventListener('load', animateProgressBars);
 
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        // ========== GOOGLE SHEETS INTEGRATION ==========
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUCRG5lBEt_Uq7bxX4rQtgknujZKPyOf64Z5tNzIJEbnr42UmGBKELGSXsbEV1XvSjiA/exec';
+        // ^^^ Replace with your actual web app URL after deployment ^^^
+
+        const form = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you! Your message has been sent. I will get back to you soon.');
-            this.reset();
+
+            const formData = {
+                name: this.name.value,
+                email: this.email.value,
+                number: this.number.value,
+                subject: this.subject.value,
+                message: this.message.value
+            };
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = 'Sending...';
+            submitBtn.disabled = true;
+            formMessage.style.display = 'none';
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                formMessage.textContent = '✅ Message sent successfully! I\'ll get back to you soon.';
+                formMessage.className = 'form-message success';
+                formMessage.style.display = 'block';
+                form.reset();
+            })
+            .catch(() => {
+                formMessage.textContent = '❌ Oops! Something went wrong. Please try again.';
+                formMessage.className = 'form-message error';
+                formMessage.style.display = 'block';
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 4000);
+            });
         });
     </script>
 </body>
