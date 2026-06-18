@@ -208,6 +208,15 @@
             box-shadow: 0 0 1.6rem var(--main-color);
             transform: translateY(-3px);
         }
+        .btn-outline {
+            background: transparent;
+            border: 0.2rem solid var(--main-color);
+            color: var(--main-color);
+        }
+        .btn-outline:hover {
+            background: var(--main-color);
+            color: white;
+        }
 
         /* ===== ABOUT ===== */
         .about {
@@ -486,6 +495,42 @@
         .project-card:hover .project-img {
             transform: scale(1.05);
         }
+        .project-banner {
+            width: 100%;
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+        .project-card:hover .project-banner {
+            transform: scale(1.05);
+        }
+        .project-banner i {
+            font-size: 5.5rem;
+            color: rgba(255,255,255,0.92);
+            position: relative;
+            z-index: 1;
+        }
+        .project-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 25% 20%, rgba(255,255,255,0.18), transparent 60%);
+            z-index: 3;
+            pointer-events: none;
+        }
+        .project-thumb {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            z-index: 2;
+        }
         .project-info {
             padding: 2.5rem;
             display: flex;
@@ -513,6 +558,15 @@
             color: var(--text-muted);
             flex-grow: 1;
             line-height: 1.6;
+        }
+        .project-actions {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .project-actions .btn {
+            padding: 1rem 2.2rem;
+            font-size: 1.4rem;
         }
 
         /* ===== CONTACT ===== */
@@ -1002,6 +1056,81 @@
     <section id="projects" class="projects-section">
         <h2 class="heading">Featured <span>Projects</span></h2>
         <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-banner" style="background: linear-gradient(135deg, #007F73, #00b3a6);">
+                    <img class="project-thumb" src="project-resume.jpg" alt="Precision Resume Builder preview" loading="lazy" onerror="this.style.display='none'">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="project-info">
+                    <h3>Precision Resume Builder</h3>
+                    <div class="tech-tags"><span class="tech">HTML5</span><span class="tech">CSS3</span><span class="tech">JavaScript</span><span class="tech">jsPDF</span></div>
+                    <p>A browser-based resume editor with live preview, 3 layout templates (sidebar left/right, classic), 11 premium font options, fully editable sidebar sections, and one-click PDF export — built as a single self-contained app with JSON backup/restore.</p>
+                    <div class="project-actions">
+                        <a href="https://mozahid24k.github.io/Vip_Resume/" target="_blank" class="btn">Live Demo</a>
+                        <a href="https://github.com/mozahid24k/Vip_Resume" target="_blank" class="btn btn-outline">Code</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-banner" style="background: linear-gradient(135deg, #0B1D3A, #C4922A);">
+                    <img class="project-thumb" src="project-travels.jpg" alt="Ansh Travels preview" loading="lazy" onerror="this.style.display='none'">
+                    <i class="fas fa-plane-departure"></i>
+                </div>
+                <div class="project-info">
+                    <h3>Ansh Travels — Travel Agency Platform</h3>
+                    <div class="tech-tags"><span class="tech">HTML5</span><span class="tech">CSS3</span><span class="tech">JavaScript</span><span class="tech">WhatsApp API</span></div>
+                    <p>A multi-service travel booking site covering vacation packages, Umrah & Hajj services, flights, hotels and visa assistance — complete with a trip-builder cart and instant WhatsApp checkout in place of a traditional payment gateway.</p>
+                    <div class="project-actions">
+                        <a href="https://mozahid24k.github.io/Ansh_Travels/" target="_blank" class="btn">Live Demo</a>
+                        <a href="https://github.com/mozahid24k/Ansh_Travels" target="_blank" class="btn btn-outline">Code</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-banner" style="background: linear-gradient(135deg, #A50000, #1e2327);">
+                    <img class="project-thumb" src="project-reben.jpg" alt="Reben Petroleum corporate website preview" loading="lazy" onerror="this.style.display='none'">
+                    <i class="fas fa-gas-pump"></i>
+                </div>
+                <div class="project-info">
+                    <h3>Reben Petroleum — Corporate Website</h3>
+                    <div class="tech-tags"><span class="tech">HTML5</span><span class="tech">CSS3</span><span class="tech">JavaScript</span><span class="tech">GSAP</span></div>
+                    <p>Full corporate site for a petroleum & logistics company, featuring a live fuel-price ticker, station locator, fleet & GPS tracking overview, franchise application flow, and an investor relations section.</p>
+                    <div class="project-actions">
+                        <a href="https://mozahidreben.github.io/rebenstation/" target="_blank" class="btn">Live Demo</a>
+                        <a href="https://github.com/mozahidreben/rebenstation" target="_blank" class="btn btn-outline">Code</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-banner" style="background: linear-gradient(135deg, #1e293b, #475569);">
+                    <img class="project-thumb" src="project-diagram.jpg" alt="Fuel Station Layout Designer preview" loading="lazy" onerror="this.style.display='none'">
+                    <i class="fas fa-draw-polygon"></i>
+                </div>
+                <div class="project-info">
+                    <h3>Fuel Station Layout Designer</h3>
+                    <div class="tech-tags"><span class="tech">SVG</span><span class="tech">JavaScript</span><span class="tech">JSON I/O</span></div>
+                    <p>An internal drag-and-drop tool for mapping fuel station layouts — place dispensers, canopies, roads and vehicles on an SVG canvas, tag each nozzle's fuel grade and fault status, then generate a printable PDF site diagram.</p>
+                    <div class="project-actions">
+                        <a href="https://mozahidreben.github.io/Diagram/" target="_blank" class="btn">Live Demo</a>
+                        <a href="https://github.com/mozahidreben/Diagram" target="_blank" class="btn btn-outline">Code</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-banner" style="background: linear-gradient(135deg, #007F73, #0a0c12);">
+                    <img class="project-thumb" src="project-tracker.jpg" alt="Reben Shift & Sales Tracker preview" loading="lazy" onerror="this.style.display='none'">
+                    <i class="fas fa-cash-register"></i>
+                </div>
+                <div class="project-info">
+                    <h3>Reben Shift & Sales Tracker</h3>
+                    <div class="tech-tags"><span class="tech">HTML5</span><span class="tech">JavaScript</span><span class="tech">LocalStorage</span></div>
+                    <p>A mobile-first shift management app for station staff — logs fuel sales by grade (91/95/Diesel), reconciles cash per shift, tracks which digital wallet apps were used, and exports shift history to Excel or PDF.</p>
+                    <div class="project-actions">
+                        <a href="https://mozahidreben.github.io/test2/" target="_blank" class="btn">Live Demo</a>
+                        <a href="https://github.com/mozahidreben/test2" target="_blank" class="btn btn-outline">Code</a>
+                    </div>
+                </div>
+            </div>
             <div class="project-card">
                 <img class="project-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format" alt="Cloud Migration">
                 <div class="project-info">
