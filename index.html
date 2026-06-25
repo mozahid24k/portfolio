@@ -94,7 +94,16 @@
             padding: 0.5rem 4%;
             background: rgba(0, 127, 115, 0.95);
             backdrop-filter: blur(10px);
-            transition: all 0.5s ease;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.5s ease,
+                        all 0.5s ease;
+        }
+
+        /* Slides up and off screen during video playback */
+        .header.nav-hidden {
+            transform: translateY(-110%);
+            opacity: 0;
+            pointer-events: none;
         }
 
         .logo {
@@ -2117,6 +2126,23 @@ setInterval(updateVisitorStats, 1000);
                 }, 1200);
             }
 
+            // ── Navbar hide/show during video ──
+            const navbar = document.querySelector('.header');
+
+            function hideNavbar() {
+                if (navbar) navbar.classList.add('nav-hidden');
+            }
+            function showNavbar() {
+                if (navbar) navbar.classList.remove('nav-hidden');
+            }
+
+            // Show navbar immediately if user scrolls even 1px
+            window.addEventListener('scroll', function onVideoScroll() {
+                if (window.scrollY > 0) {
+                    showNavbar();
+                }
+            }, { passive: true });
+
             // ── Start button click ──
             startBtn.addEventListener('click', function() {
                 // Scroll to very top first so video section is always fully visible
@@ -2128,6 +2154,9 @@ setInterval(updateVisitorStats, 1000);
                     overlay.removeEventListener('transitionend', onFadeOut);
                     overlay.style.display = 'none';
                 }, { once: true });
+
+                // Hide navbar — cinematic start
+                hideNavbar();
 
                 // Show video section
                 videoSection.style.display = 'block';
@@ -2145,8 +2174,11 @@ setInterval(updateVisitorStats, 1000);
                     });
                 }
 
-                // Collapse when video ends naturally
-                introVideo.addEventListener('ended', collapseVideoSection, { once: true });
+                // When video ends — show navbar and collapse section
+                introVideo.addEventListener('ended', function() {
+                    showNavbar();
+                    collapseVideoSection();
+                }, { once: true });
             });
         })();
 
