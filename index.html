@@ -607,7 +607,7 @@
         /* ── Bullets ── */
         .exp-bullets {
             list-style: none;
-            padding: 0.4rem 0 0 0;
+            padding: 0.4rem 0 0 1.2rem;
             margin: 0.6rem 0 0;
             display: flex;
             flex-direction: column;
@@ -615,6 +615,8 @@
             min-width: 0;
             overflow: visible;
             max-height: none;
+            border-left: 2px solid rgba(0,127,115,0.2);
+            transition: border-left-color 0.3s ease;
         }
 
         .exp-bullet {
