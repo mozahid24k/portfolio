@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Mozahid</title>
     <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Force fresh state on every load/refresh - no scroll memory -->
+    <script>
+        if ("scrollRestoration" in history) {
+            history.scrollRestoration = "manual";
+        }
+        window.scrollTo(0, 0);
+    </script>
     
     <style>
         @font-face {
@@ -387,83 +395,307 @@
             transition: width 1.2s cubic-bezier(0.22, 0.97, 0.36, 1);
         }
 
-        /* ===== EXPERIENCE ===== */
+        /* ===== EXPERIENCE — CINEMATIC HORIZONTAL ===== */
         #experience {
-            margin-top: -3rem;
-            padding-top: 5rem;
+            margin-top: 0;
+            padding: 10rem 9% 6rem;
+            position: relative;
+            overflow: hidden;
         }
-        .timeline {
-            max-width: 900px;
-            margin: 3rem auto 0;
+
+        /* Large watermark text */
+        #experience::before {
+            content: 'EXPERIENCE';
+            position: absolute;
+            bottom: -0.04em;
+            right: -0.02em;
+            font-size: clamp(6rem, 12vw, 14rem);
+            font-weight: 900;
+            color: rgba(0, 127, 115, 0.04);
+            letter-spacing: -0.04em;
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        /* ── Header row ── */
+        .exp-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .exp-header-left {
+            display: flex;
+            align-items: baseline;
+            gap: 1.6rem;
+        }
+        .exp-count-badge {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(0,127,115,0.6);
+            font-family: 'Inter', monospace;
+        }
+        .exp-label-right {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        /* ── Timeline wrapper ── */
+        .exp-timeline {
             position: relative;
         }
-        .timeline::before {
-            content: '';
+
+        /* ── Horizontal snake line ── */
+        .exp-snake-line {
             position: absolute;
-            left: 0.5rem;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: #cbd5e1;
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 1s ease;
+            left: 26px;
+            right: 0;
+            top: 26px; /* center of 52px dot */
+            height: 2px;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                var(--main-color) 4%,
+                rgba(0,127,115,0.55) 50%,
+                rgba(0,127,115,0.18) 96%,
+                transparent 100%
+            );
+            box-shadow: 0 0 14px rgba(0,127,115,0.3), 0 0 32px rgba(0,127,115,0.12);
+            transform-origin: left center;
+            transform: scaleX(0);
+            pointer-events: none;
+            z-index: 0;
         }
-        .timeline-line-drawn::before {
-            transform: scaleY(1);
-        }
-        .timeline-item {
+
+        /* ── Entries row ── */
+        .exp-entries {
+            display: flex;
+            gap: clamp(1.5rem, 3vw, 3rem);
+            align-items: flex-start;
             position: relative;
-            padding-left: 4rem;
-            margin-bottom: 3rem;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -0.2rem;
-            top: 8px;
-            width: 1.6rem;
-            height: 1.6rem;
-            background: var(--main-color);
-            border-radius: 50%;
-            box-shadow: 0 0 0 4px rgba(0,127,115,0.2);
             z-index: 1;
         }
-        .timeline-content {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 1.8rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-            border: 1px solid rgba(0,0,0,0.03);
+
+        .exp-entry {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .timeline-content:hover {
-            transform: translateX(8px);
-            box-shadow: var(--shadow);
-            border-color: rgba(0,127,115,0.1);
+
+        /* ── Numbered dot ── */
+        .exp-dot {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            border: 2px solid var(--main-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+            box-shadow:
+                0 0 0 5px rgba(0,127,115,0.06),
+                0 0 20px rgba(0,127,115,0.12);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: scale(0);
         }
-        .timeline-date {
-            font-size: 1.8rem;
+
+        /* Vertical connector dot → card */
+        .exp-dot::after {
+            content: '';
+            position: absolute;
+            top: calc(100% + 2px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: clamp(1rem, 2.5vh, 2rem);
+            background: linear-gradient(to bottom, rgba(0,127,115,0.5), transparent);
+        }
+
+        .exp-dot-num {
+            font-size: 1.1rem;
             font-weight: 800;
             color: var(--main-color);
-            margin-bottom: 0.5rem;
+            font-family: 'Inter', monospace;
+            letter-spacing: 0.04em;
         }
-        .timeline-content h3 { font-size: 2.2rem; margin: 0.5rem 0; }
-        .timeline-company {
+
+        /* ── Card ── */
+        .exp-card {
+            width: 100%;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            padding-top: clamp(1rem, 2.5vh, 2rem);
+            opacity: 0;
+            transform: translateY(28px);
+        }
+
+        .exp-card-head {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .exp-period {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--main-color);
+            font-family: 'Inter', monospace;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+
+        .exp-type-tag {
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
-            font-size: 1.7rem;
-            color: var(--text-color);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(0,127,115,0.6);
+            background: rgba(0,127,115,0.07);
+            border: 1px solid rgba(0,127,115,0.18);
+            padding: 0.15rem 0.6rem;
+            border-radius: 4px;
+            white-space: nowrap;
         }
-        .timeline-list {
-            padding-left: 2rem;
-            font-size: 1.5rem;
+
+        .exp-location {
+            font-size: 1.2rem;
             color: var(--text-muted);
             font-weight: 500;
-            line-height: 1.7;
+            opacity: 0.6;
         }
-        .timeline-list li {
-            margin-bottom: 0.8rem;
+
+        .exp-company {
+            font-size: clamp(1.4rem, 2vw, 2rem);
+            font-weight: 900;
+            color: var(--text-color);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin: 0.2rem 0 0;
+            text-transform: uppercase;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .exp-role {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--main-color);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        /* ── Bullets ── */
+        .exp-bullets {
+            list-style: none;
+            padding: 0.2rem 0 0 0.8rem;
+            margin: 0.4rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            border-left: 2px solid rgba(0,127,115,0.2);
+            min-width: 0;
+            overflow: visible;
+            max-height: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .exp-bullet {
+            font-size: 1.4rem;
+            line-height: 1.55;
+            color: var(--text-muted);
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        /* ── Tech tags ── */
+        .exp-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.4rem;
+        }
+
+        .exp-tag {
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 0.2rem 0.7rem;
+            border-radius: 4px;
+            background: rgba(0,127,115,0.08);
+            color: var(--main-color);
+            border: 1px solid rgba(0,127,115,0.18);
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+
+        /* ── Hover states (desktop only) ── */
+        @media (min-width: 768px) {
+            .exp-entry:hover .exp-dot {
+                box-shadow:
+                    0 0 0 8px rgba(0,127,115,0.1),
+                    0 0 28px rgba(0,127,115,0.28);
+                transform: scale(1.08);
+            }
+            .exp-entry:hover .exp-bullets {
+                border-left-color: rgba(0,127,115,0.55);
+            }
+        }
+
+        /* ── Mobile (≤767px) ── */
+        @media (max-width: 767px) {
+            #experience { padding: 8rem 5% 4rem; }
+            #experience::before { font-size: clamp(4rem, 18vw, 8rem); }
+
+            .exp-snake-line  { display: none; }
+
+            .exp-entries {
+                flex-direction: column;
+                gap: 2.5rem;
+            }
+
+            .exp-entry {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 1.2rem;
+            }
+
+            .exp-dot {
+                flex-shrink: 0;
+                width: 42px;
+                height: 42px;
+            }
+            .exp-dot::after { display: none; }
+
+            .exp-card         { padding-top: 0; }
+            .exp-company      { font-size: 1.4rem; }
+            .exp-stack        { display: none; }
+            .exp-header       { margin-bottom: 3rem; }
+        }
+
+        /* ── Tablet (768–1023px) ── */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .exp-company  { font-size: 1.5rem; }
+            .exp-entries  { gap: 1.8rem; }
+            .exp-bullet   { font-size: 1.3rem; }
         }
 
         /* ===== PROJECTS ===== */
@@ -897,6 +1129,177 @@
         @media (max-width: 768px) {
             .live-stats { display: none; }
         }
+
+        /* ========== CINEMATIC INTRO SYSTEM ========== */
+
+        /* 1. Page blur/dim overlay — shown on load, removed after Start click */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 8000;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.7s ease, backdrop-filter 0.7s ease;
+        }
+        #intro-overlay.dissolving {
+            opacity: 0;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            pointer-events: none;
+        }
+
+        /* 2. The ▶ Start button */
+        #start-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            padding: 2rem 4.5rem;
+            font-family: 'CustomFont', 'Inter', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(0, 127, 115, 0.18);
+            border: 2px solid rgba(0, 200, 185, 0.55);
+            border-radius: 10rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            box-shadow:
+                0 0 32px rgba(0, 200, 185, 0.35),
+                0 0 80px rgba(0, 127, 115, 0.2),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+            animation: startBtnPulse 2.8s ease-in-out infinite;
+            transition: transform 0.25s cubic-bezier(0.2,0.9,0.4,1.1),
+                        box-shadow 0.25s ease,
+                        background 0.25s ease;
+            outline: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #start-btn::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: inherit;
+            border: 1.5px solid rgba(0, 200, 185, 0.25);
+            animation: startBtnRing 2.8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        #start-btn:hover {
+            transform: scale(1.07) translateY(-4px);
+            background: rgba(0, 127, 115, 0.38);
+            box-shadow:
+                0 0 48px rgba(0, 200, 185, 0.6),
+                0 0 100px rgba(0, 127, 115, 0.35),
+                inset 0 1px 0 rgba(255,255,255,0.25);
+            animation: none;
+        }
+        #start-btn:active {
+            transform: scale(0.97);
+        }
+        .start-btn-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 4.4rem;
+            height: 4.4rem;
+            background: rgba(0, 200, 185, 0.3);
+            border-radius: 50%;
+            border: 1.5px solid rgba(0, 200, 185, 0.5);
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        @keyframes startBtnPulse {
+            0%, 100% {
+                box-shadow: 0 0 28px rgba(0,200,185,0.3), 0 0 60px rgba(0,127,115,0.15), inset 0 1px 0 rgba(255,255,255,0.12);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 48px rgba(0,200,185,0.55), 0 0 100px rgba(0,127,115,0.28), inset 0 1px 0 rgba(255,255,255,0.18);
+                transform: scale(1.025);
+            }
+        }
+        @keyframes startBtnRing {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.1; transform: scale(1.08); }
+        }
+        @media (max-width: 480px) {
+            #start-btn { font-size: 1.8rem; padding: 1.6rem 3.2rem; gap: 1.1rem; }
+            .start-btn-icon { width: 3.6rem; height: 3.6rem; font-size: 1.5rem; }
+        }
+
+        /* 3. Intro video section — sits between navbar and #home */
+        #intro-video-section {
+            /* Reset section defaults completely */
+            min-height: 0 !important;
+            padding: 0 !important;
+            opacity: 1 !important;
+
+            /* 100dvh = dynamic viewport height — shrinks correctly when mobile browser chrome shows/hides.
+               Falls back to 100vh for older browsers. */
+            height: 100vh;
+            height: 100dvh;
+            max-height: 100vh;
+            max-height: 100dvh;
+
+            position: relative;
+            overflow: hidden;
+            background: #000;
+
+            /* Collapse via max-height + opacity — avoids iOS height transition bugs */
+            transition: max-height 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.7s ease;
+        }
+        #intro-video-section.collapsing {
+            max-height: 0 !important;
+            height: 0 !important;
+            opacity: 0 !important;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        #intro-video-section.hidden {
+            display: none !important;
+        }
+        #intro-video {
+            /* Fills the section as normal in-flow content — NOT fixed or sticky */
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* Skip hint */
+        #skip-hint {
+            position: absolute;
+            bottom: 3rem;
+            right: 3rem;
+            z-index: 10;
+            font-family: 'CustomFont', 'Inter', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+            padding: 0.8rem 2rem;
+            border-radius: 5rem;
+            border: 1px solid rgba(255,255,255,0.18);
+            pointer-events: none;
+            opacity: 0;
+            animation: skipHintFade 1s ease 2s forwards;
+        }
+        @keyframes skipHintFade {
+            to { opacity: 1; }
+        }
+        @media (max-width: 480px) {
+            #skip-hint { font-size: 1.2rem; bottom: 2rem; right: 1.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -923,6 +1326,31 @@
             <a href="#contact">Contact</a>
         </nav>
     </header>
+
+    <!-- ========== CINEMATIC INTRO OVERLAY (blur + Start button) ========== -->
+    <div id="intro-overlay" role="dialog" aria-label="Click to enter the portfolio">
+        <button id="start-btn" aria-label="Start portfolio experience">
+            <span class="start-btn-icon">&#9654;</span>
+            Start
+        </button>
+    </div>
+
+    <!-- ========== INTRO VIDEO SECTION (injected between navbar and #home) ========== -->
+    <section id="intro-video-section" aria-hidden="true" style="display:none;">
+        <video
+            id="intro-video"
+            playsinline
+            preload="metadata"
+            aria-hidden="true">
+            <!-- 
+                Replace the src below with your actual intro video path.
+                Example: <source src="intro.mp4" type="video/mp4">
+                The video will play WITH SOUND because it starts after user interaction (clicking Start).
+            -->
+            <source src="intro.mp4" type="video/mp4">
+        </video>
+        <div id="skip-hint">Scroll down to explore ↓</div>
+    </section>
 
     <section id="home" class="home">
         <div class="home-img">
@@ -1012,45 +1440,110 @@
     </section>
 
     <section id="experience" class="timeline-section">
-        <h2 class="heading">Professional <span>Experience</span></h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">July 2024 – Present</div>
-                    <h3>IT Executive</h3>
-                    <div class="timeline-company">Masaken Al-Majdal Petroleum (REBEN) – Riyadh, KSA</div>
-                    <ul class="timeline-list">
-                        <li>Manage IT infrastructure for 65+ fuel stations, ensuring 99.9% uptime</li>
-                        <li>Deployed network monitoring tools, reduced incident response by 35%</li>
-                        <li>Configured FortiGate firewalls & Windows Server 2019</li>
-                        <li>Provided FMS/POS support and trained 40+ staff (40% proficiency gain)</li>
-                    </ul>
-                </div>
+
+        <!-- Header -->
+        <div class="exp-header">
+            <div class="exp-header-left">
+                <h2 class="heading" style="margin-bottom:0;">Professional <span>Experience</span></h2>
+                <span class="exp-count-badge">03 Companies</span>
             </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">2023 – 2024</div>
-                    <h3>Desktop Support Engineer</h3>
-                    <div class="timeline-company">Tech Mahindra – Noida, India</div>
-                    <ul class="timeline-list">
-                        <li>Optimized troubleshooting processes → 40% faster incident resolution</li>
-                        <li>Remote support for Citrix, ServiceNow, LogMeIn; maintained 95% system availability</li>
-                        <li>Created technical documentation reducing onboarding time by 30%</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">2023</div>
-                    <h3>Networking Intern</h3>
-                    <div class="timeline-company">Jetking Tech Lab</div>
-                    <ul class="timeline-list">
-                        <li>Hands-on PC assembly, Windows deployments, IPv4/DHCP/DNS configuration</li>
-                        <li>Hardware troubleshooting and lab equipment maintenance</li>
-                    </ul>
-                </div>
-            </div>
+            <span class="exp-label-right">Work History</span>
         </div>
+
+        <!-- Timeline -->
+        <div class="exp-timeline">
+
+            <!-- Horizontal snake line (animated by GSAP) -->
+            <div class="exp-snake-line" id="expSnakeLine"></div>
+
+            <!-- Entries row -->
+            <div class="exp-entries">
+
+                <!-- 01 — REBEN -->
+                <div class="exp-entry">
+                    <div class="exp-dot" data-exp-dot>
+                        <span class="exp-dot-num">01</span>
+                    </div>
+                    <div class="exp-card" data-exp-card>
+                        <div class="exp-card-head">
+                            <span class="exp-period">Jul 2024 – Present</span>
+                            <span class="exp-type-tag">Full-time</span>
+                            <span class="exp-location">Riyadh, KSA</span>
+                        </div>
+                        <h3 class="exp-company">REBEN Petroleum</h3>
+                        <p class="exp-role">IT Executive</p>
+                        <ul class="exp-bullets" data-exp-bullets>
+                            <li class="exp-bullet">Manage IT infrastructure for 65+ fuel stations, ensuring 99.9% uptime</li>
+                            <li class="exp-bullet">Deployed network monitoring tools, reduced incident response by 35%</li>
+                            <li class="exp-bullet">Configured FortiGate firewalls &amp; Windows Server 2019</li>
+                            <li class="exp-bullet">Provided FMS/POS support and trained 40+ staff (40% proficiency gain)</li>
+                        </ul>
+                        <div class="exp-stack">
+                            <span class="exp-tag">FortiGate</span>
+                            <span class="exp-tag">Windows Server</span>
+                            <span class="exp-tag">FMS/POS</span>
+                            <span class="exp-tag">IoT</span>
+                            <span class="exp-tag">CCTV</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 02 — Tech Mahindra -->
+                <div class="exp-entry">
+                    <div class="exp-dot" data-exp-dot>
+                        <span class="exp-dot-num">02</span>
+                    </div>
+                    <div class="exp-card" data-exp-card>
+                        <div class="exp-card-head">
+                            <span class="exp-period">2023 – 2024</span>
+                            <span class="exp-type-tag">Full-time</span>
+                            <span class="exp-location">Noida, India</span>
+                        </div>
+                        <h3 class="exp-company">Tech Mahindra</h3>
+                        <p class="exp-role">Desktop Support Engineer</p>
+                        <ul class="exp-bullets" data-exp-bullets>
+                            <li class="exp-bullet">Optimized troubleshooting processes → 40% faster incident resolution</li>
+                            <li class="exp-bullet">Remote support via Citrix, ServiceNow, LogMeIn; 95% system availability</li>
+                            <li class="exp-bullet">Created technical documentation reducing onboarding time by 30%</li>
+                        </ul>
+                        <div class="exp-stack">
+                            <span class="exp-tag">Citrix</span>
+                            <span class="exp-tag">ServiceNow</span>
+                            <span class="exp-tag">LogMeIn</span>
+                            <span class="exp-tag">Active Directory</span>
+                            <span class="exp-tag">VPN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 03 — Jetking -->
+                <div class="exp-entry">
+                    <div class="exp-dot" data-exp-dot>
+                        <span class="exp-dot-num">03</span>
+                    </div>
+                    <div class="exp-card" data-exp-card>
+                        <div class="exp-card-head">
+                            <span class="exp-period">2023</span>
+                            <span class="exp-type-tag">Internship</span>
+                            <span class="exp-location">India</span>
+                        </div>
+                        <h3 class="exp-company">Jetking Tech Lab</h3>
+                        <p class="exp-role">Networking Intern</p>
+                        <ul class="exp-bullets" data-exp-bullets>
+                            <li class="exp-bullet">Hands-on PC assembly, Windows deployments, IPv4/DHCP/DNS configuration</li>
+                            <li class="exp-bullet">Hardware troubleshooting and lab equipment maintenance</li>
+                        </ul>
+                        <div class="exp-stack">
+                            <span class="exp-tag">PC Assembly</span>
+                            <span class="exp-tag">Windows</span>
+                            <span class="exp-tag">IPv4</span>
+                            <span class="exp-tag">DHCP/DNS</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- .exp-entries -->
+        </div><!-- .exp-timeline -->
     </section>
 
     <section id="projects" class="projects-section">
@@ -1259,6 +1752,8 @@
         gsap.registerPlugin(ScrollTrigger);
 
         gsap.utils.toArray('section').forEach((section, i) => {
+            // Skip the cinematic intro video section — it manages its own opacity
+            if (section.id === 'intro-video-section') return;
             gsap.fromTo(section, 
                 { opacity: 0, y: 40 },
                 {
@@ -1303,31 +1798,74 @@
             }
         );
 
-        const timeline = document.querySelector('.timeline');
-        gsap.fromTo(timeline, 
-            { scaleY: 0, transformOrigin: 'top' },
-            {
-                scaleY: 1, duration: 1.2, ease: 'power2.out',
-                scrollTrigger: {
-                    trigger: '.timeline',
-                    start: 'top 80%',
-                },
-                onComplete: () => timeline.classList.add('timeline-line-drawn')
+        // ── CINEMATIC EXPERIENCE SECTION ──────────────────────────────
+        (function() {
+            const expSection  = document.getElementById('experience');
+            const snakeLine   = document.getElementById('expSnakeLine');
+            const dots        = Array.from(document.querySelectorAll('[data-exp-dot]'));
+            const cards       = Array.from(document.querySelectorAll('[data-exp-card]'));
+            const bulletLists = Array.from(document.querySelectorAll('[data-exp-bullets]'));
+
+            if (!expSection || !snakeLine) return;
+
+            // Hover glow on dot only (no expand/collapse — all bullets always visible)
+            const entries = document.querySelectorAll('.exp-entry');
+            entries.forEach(function(entry, i) {
+                entry.addEventListener('mouseenter', function() {
+                    if (window.innerWidth < 768) return;
+                    const dot = dots[i];
+                    if (!dot) return;
+                    gsap.to(dot, { scale: 1.12,
+                                   boxShadow: '0 0 0 10px rgba(0,127,115,0.1), 0 0 30px rgba(0,127,115,0.25)',
+                                   duration: 0.3, ease: 'back.out(2)' });
+                    gsap.to(bulletLists[i], { borderLeftColor: 'rgba(0,127,115,0.6)', duration: 0.3 });
+                });
+                entry.addEventListener('mouseleave', function() {
+                    if (window.innerWidth < 768) return;
+                    const dot = dots[i];
+                    if (!dot) return;
+                    gsap.to(dot, { scale: 1,
+                                   boxShadow: '0 0 0 5px rgba(0,127,115,0.06), 0 0 20px rgba(0,127,115,0.12)',
+                                   duration: 0.25, ease: 'power2.in' });
+                    gsap.to(bulletLists[i], { borderLeftColor: 'rgba(0,127,115,0.2)', duration: 0.25 });
+                });
+            });
+
+            // Main entrance animation — triggered by ScrollTrigger
+            let mainTl = null;
+
+            function resetExpAnim() {
+                if (mainTl) mainTl.kill();
+                gsap.set(snakeLine, { scaleX: 0, transformOrigin: 'left center' });
+                dots.forEach(function(el)  { gsap.set(el, { scale: 0, opacity: 0 }); });
+                cards.forEach(function(el) { gsap.set(el, { opacity: 0, y: 28 }); });
             }
-        );
-        gsap.fromTo('.timeline-item', 
-            { opacity: 0, x: -40 },
-            {
-                opacity: 1, x: 0,
-                duration: 0.6,
-                stagger: 0.2,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: '.timeline',
-                    start: 'top 80%',
-                }
+
+            function playExpAnim() {
+                resetExpAnim();
+                const n  = dots.length;
+                mainTl   = gsap.timeline();
+
+                // Snake line draws left to right
+                mainTl.to(snakeLine, { scaleX: 1, duration: 1.6, ease: 'power2.inOut' }, 0);
+
+                // Dots and cards staggered along the timeline
+                dots.forEach(function(dot, i) {
+                    const t = i === 0 ? 0.1 : 0.1 + (i / (n - 1)) * 1.4;
+                    mainTl.to(dot,      { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2.2)' }, t);
+                    mainTl.to(cards[i], { opacity: 1, y: 0,     duration: 0.6, ease: 'power3.out'   }, t + 0.15);
+                });
             }
-        );
+
+            resetExpAnim();
+
+            ScrollTrigger.create({
+                trigger: expSection,
+                start: 'top 75%',
+                onEnter: playExpAnim,
+                once: true
+            });
+        })();
 
         gsap.fromTo('.project-card', 
             { opacity: 0, y: 40 },
@@ -1408,7 +1946,102 @@ function updateVisitorStats() {
 updateVisitorStats();
 setInterval(updateVisitorStats, 1000);
 
-        // ========== GOOGLE SHEETS INTEGRATION ==========
+        // ========== CINEMATIC INTRO SYSTEM ==========
+        (function() {
+            const overlay      = document.getElementById('intro-overlay');
+            const startBtn     = document.getElementById('start-btn');
+            const videoSection = document.getElementById('intro-video-section');
+            const introVideo   = document.getElementById('intro-video');
+
+            // ── ALWAYS reset to clean state on every page load / refresh ──
+            // Remove any classes that may have been left from a previous session
+            // (browser may cache DOM state across soft navigations)
+            videoSection.classList.remove('collapsing', 'hidden');
+            videoSection.style.display  = 'none';
+            videoSection.style.maxHeight = '';
+            videoSection.style.opacity  = '';
+
+            // Reset video to the very beginning so it never starts mid-way
+            introVideo.pause();
+            introVideo.currentTime = 0;
+            introVideo.muted = true; // start muted; unmute on click
+
+            // Reset overlay to fully visible
+            overlay.classList.remove('dissolving');
+            overlay.style.display  = '';
+            overlay.style.opacity  = '';
+
+            // ── Collapse helper ──
+            function collapseVideoSection() {
+                if (!videoSection || videoSection.classList.contains('collapsing')) return;
+
+                const scrollBefore  = window.scrollY;
+                const sectionHeight = videoSection.getBoundingClientRect().height;
+
+                videoSection.classList.add('collapsing');
+
+                let collapsed = false;
+                videoSection.addEventListener('transitionend', function onEnd(e) {
+                    if (collapsed) return;
+                    if (e.propertyName !== 'max-height' && e.propertyName !== 'opacity') return;
+                    collapsed = true;
+                    videoSection.removeEventListener('transitionend', onEnd);
+                    videoSection.classList.add('hidden');
+                    introVideo.pause();
+
+                    // Correct scroll so Hero section doesn't jump
+                    if (scrollBefore > 0) {
+                        const correction = Math.min(scrollBefore, sectionHeight);
+                        window.scrollTo({ top: Math.max(0, scrollBefore - correction), behavior: 'instant' });
+                    }
+                });
+
+                // Safety fallback: if transitionend never fires (e.g. display:none mid-transition)
+                setTimeout(function() {
+                    if (!collapsed) {
+                        collapsed = true;
+                        videoSection.classList.add('hidden');
+                        introVideo.pause();
+                        if (scrollBefore > 0) {
+                            window.scrollTo({ top: Math.max(0, scrollBefore - sectionHeight), behavior: 'instant' });
+                        }
+                    }
+                }, 1200);
+            }
+
+            // ── Start button click ──
+            startBtn.addEventListener('click', function() {
+                // Scroll to very top first so video section is always fully visible
+                window.scrollTo({ top: 0, behavior: 'instant' });
+
+                // Dissolve the blur overlay
+                overlay.classList.add('dissolving');
+                overlay.addEventListener('transitionend', function onFadeOut() {
+                    overlay.removeEventListener('transitionend', onFadeOut);
+                    overlay.style.display = 'none';
+                }, { once: true });
+
+                // Show video section
+                videoSection.style.display = 'block';
+                void videoSection.offsetHeight; // force reflow before transition
+
+                // Play with sound — allowed because user just interacted
+                introVideo.currentTime = 0;   // always from the beginning
+                introVideo.muted  = false;
+                introVideo.volume = 0.85;
+                const playPromise = introVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function() {
+                        introVideo.muted = true;
+                        introVideo.play().catch(function() {});
+                    });
+                }
+
+                // Collapse when video ends naturally
+                introVideo.addEventListener('ended', collapseVideoSection, { once: true });
+            });
+        })();
+
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUCRG5lBEt_Uq7bxX4rQtgknujZKPyOf64Z5tNzIJEbnr42UmGBKELGSXsbEV1XvSjiA/exec';
         // 🔁 Replace with your actual Google Apps Script web app URL 🔁
 
