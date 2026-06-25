@@ -607,16 +607,14 @@
         /* ── Bullets ── */
         .exp-bullets {
             list-style: none;
-            padding: 0.2rem 0 0 0.8rem;
-            margin: 0.4rem 0 0;
+            padding: 0.4rem 0 0 0;
+            margin: 0.6rem 0 0;
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
-            border-left: 2px solid rgba(0,127,115,0.2);
+            gap: 0.6rem;
             min-width: 0;
             overflow: visible;
             max-height: none;
-            transition: border-color 0.3s ease;
         }
 
         .exp-bullet {
@@ -625,6 +623,22 @@
             color: var(--text-muted);
             font-weight: 500;
             flex-shrink: 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        /* Teal dot before each responsibility */
+        .exp-bullet::before {
+            content: '';
+            display: block;
+            flex-shrink: 0;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--main-color);
+            box-shadow: 0 0 6px rgba(0,127,115,0.5);
+            margin-top: 0.55em;
         }
 
         /* ── Tech tags ── */
@@ -1279,30 +1293,76 @@
             object-fit: cover;
             display: block;
         }
-        /* Skip hint */
-        #skip-hint {
+        /* Animated scroll mouse indicator */
+        #scroll-mouse {
             position: absolute;
-            bottom: 3rem;
-            right: 3rem;
+            bottom: 3.5rem;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 10;
-            font-family: 'CustomFont', 'Inter', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: rgba(255,255,255,0.7);
-            background: rgba(0,0,0,0.35);
-            backdrop-filter: blur(8px);
-            padding: 0.8rem 2rem;
-            border-radius: 5rem;
-            border: 1px solid rgba(255,255,255,0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
             pointer-events: none;
             opacity: 0;
-            animation: skipHintFade 1s ease 2s forwards;
+            animation: mouseHintFade 1s ease 2.5s forwards;
         }
-        @keyframes skipHintFade {
+        .scroll-mouse-body {
+            width: 28px;
+            height: 46px;
+            border: 2.5px solid rgba(255,255,255,0.7);
+            border-radius: 14px;
+            position: relative;
+            background: rgba(255,255,255,0.04);
+            box-shadow: 0 0 18px rgba(0,200,185,0.2), inset 0 0 8px rgba(0,200,185,0.08);
+        }
+        .scroll-mouse-wheel {
+            width: 4px;
+            height: 8px;
+            background: rgba(0,200,185,0.9);
+            border-radius: 2px;
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 6px rgba(0,200,185,0.8);
+            animation: mouseWheelScroll 1.6s ease-in-out infinite;
+        }
+        .scroll-mouse-arrows {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .scroll-mouse-arrow {
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid rgba(255,255,255,0.6);
+            border-bottom: 2px solid rgba(255,255,255,0.6);
+            transform: rotate(45deg);
+            animation: mouseArrowFade 1.6s ease-in-out infinite;
+        }
+        .scroll-mouse-arrow:nth-child(1) { animation-delay: 0s;    opacity: 0.4; }
+        .scroll-mouse-arrow:nth-child(2) { animation-delay: 0.2s;  opacity: 0.7; }
+        .scroll-mouse-arrow:nth-child(3) { animation-delay: 0.4s;  opacity: 1.0; }
+
+        @keyframes mouseHintFade {
             to { opacity: 1; }
         }
+        @keyframes mouseWheelScroll {
+            0%   { top: 6px;  opacity: 1; }
+            60%  { top: 20px; opacity: 0; }
+            61%  { top: 6px;  opacity: 0; }
+            100% { top: 6px;  opacity: 1; }
+        }
+        @keyframes mouseArrowFade {
+            0%, 100% { opacity: 0.2; transform: rotate(45deg) translateY(-3px); }
+            50%       { opacity: 1;   transform: rotate(45deg) translateY(3px);  }
+        }
         @media (max-width: 480px) {
-            #skip-hint { font-size: 1.2rem; bottom: 2rem; right: 1.5rem; }
+            #scroll-mouse { bottom: 2.5rem; }
+            .scroll-mouse-body { width: 24px; height: 40px; }
         }
     </style>
 </head>
@@ -1353,7 +1413,17 @@
             -->
             <source src="intro.mp4" type="video/mp4">
         </video>
-        <div id="skip-hint">Scroll down to explore ↓</div>
+        <!-- Animated scroll mouse -->
+        <div id="scroll-mouse" aria-hidden="true">
+            <div class="scroll-mouse-body">
+                <div class="scroll-mouse-wheel"></div>
+            </div>
+            <div class="scroll-mouse-arrows">
+                <div class="scroll-mouse-arrow"></div>
+                <div class="scroll-mouse-arrow"></div>
+                <div class="scroll-mouse-arrow"></div>
+            </div>
+        </div>
     </section>
 
     <section id="home" class="home">
