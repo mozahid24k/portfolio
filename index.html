@@ -683,21 +683,52 @@
 
             .exp-snake-line  { display: none; }
 
+            /* Entries column — position:relative so we can draw the vertical spine */
             .exp-entries {
                 flex-direction: column;
-                gap: 3rem;
+                gap: 0;
+                position: relative;
+            }
+
+            /* Vertical spine line through all dots */
+            .exp-entries::before {
+                content: '';
+                position: absolute;
+                left: 22px; /* center of 46px dot */
+                top: 23px;  /* center of first dot */
+                bottom: 23px; /* center of last dot */
+                width: 2px;
+                background: linear-gradient(
+                    to bottom,
+                    var(--main-color) 0%,
+                    rgba(0,127,115,0.4) 50%,
+                    rgba(0,127,115,0.15) 100%
+                );
+                box-shadow: 0 0 8px rgba(0,127,115,0.25);
+                z-index: 0;
             }
 
             .exp-entry {
                 flex-direction: row;
                 align-items: flex-start;
                 gap: 1.4rem;
+                padding: 1.8rem 0;
+                position: relative;
+                z-index: 1;
             }
+
+            /* First entry — no top padding so line starts at dot center */
+            .exp-entry:first-child { padding-top: 0; }
+            /* Last entry — no bottom padding so line ends at dot center */
+            .exp-entry:last-child  { padding-bottom: 0; }
 
             .exp-dot {
                 flex-shrink: 0;
                 width: 46px;
                 height: 46px;
+                position: relative;
+                z-index: 2; /* sit above the spine line */
+                background: var(--bg-color); /* cover the line behind the dot */
             }
             .exp-dot::after { display: none; }
 
@@ -709,7 +740,7 @@
             .exp-card         { padding-top: 0; }
             .exp-stack        { display: none; }
             .exp-header       { margin-bottom: 3rem; }
-            .exp-bullets      { padding-left: 1rem; }
+            .exp-bullets      { padding-left: 1rem; border-left: none; }
         }
 
         /* ── Tablet (768–1023px) ── */
