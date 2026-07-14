@@ -897,6 +897,127 @@
         @media (max-width: 768px) {
             .live-stats { display: none; }
         }
+
+        /* ===== RESUME LIVE PREVIEW ===== */
+        .resume-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--snd-bg-color);
+            min-height: auto;
+            padding-bottom: 6rem;
+        }
+        .resume-subtitle {
+            max-width: 640px;
+            text-align: center;
+            font-size: 1.6rem;
+            color: var(--text-muted);
+            margin: -1rem 0 3rem;
+        }
+        .resume-viewer {
+            width: 100%;
+            max-width: 780px;
+            background: #fff;
+            border-radius: 1.2rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        .resume-viewer-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 1.4rem 2rem;
+            background: var(--main-color);
+            color: #fff;
+        }
+        .resume-viewer-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            overflow: hidden;
+        }
+        .resume-viewer-toolbar-left i { font-size: 1.7rem; flex-shrink: 0; }
+        .resume-viewer-toolbar-left span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .resume-viewer-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-shrink: 0;
+        }
+        #resumePageIndicator {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            white-space: nowrap;
+        }
+        .resume-download-btn {
+            background: #fff;
+            color: var(--main-color);
+            padding: 0.7rem 1.8rem;
+            font-size: 1.4rem;
+        }
+        .resume-download-btn:hover {
+            box-shadow: none;
+            transform: translateY(-2px);
+            background: var(--text-color);
+            color: #fff;
+        }
+        .resume-pages-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.8rem;
+            padding: 2rem;
+            max-height: 900px;
+            overflow-y: auto;
+            background: #e9edf1;
+        }
+        .resume-pages-wrapper::-webkit-scrollbar { width: 8px; }
+        .resume-pages-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(0,127,115,0.4);
+            border-radius: 4px;
+        }
+        .resume-page-canvas {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+            border-radius: 0.4rem;
+            background: #fff;
+        }
+        .resume-loading, .resume-error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            padding: 5rem 2rem;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .resume-error i { font-size: 3rem; color: #e07b39; }
+        .resume-error a { color: var(--main-color); font-weight: 600; text-decoration: underline; }
+        .resume-spinner {
+            width: 42px;
+            height: 42px;
+            border: 4px solid rgba(0,127,115,0.2);
+            border-top-color: var(--main-color);
+            border-radius: 50%;
+            animation: resumeSpin 0.8s linear infinite;
+        }
+        @keyframes resumeSpin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            .resume-viewer-toolbar { flex-wrap: wrap; }
+            .resume-pages-wrapper { max-height: 600px; padding: 1.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -916,6 +1037,7 @@
         <nav class="navbar">
             <a href="#home">Home</a>
             <a href="#about">About</a>
+            <a href="#resume">Resume</a>
             <a href="#services">Services</a>
             <a href="#skills">Skills</a>
             <a href="#experience">Experience</a>
@@ -960,6 +1082,35 @@
                 <source src="video.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+        </div>
+    </section>
+
+    <section id="resume" class="resume-section">
+        <h2 class="heading">My <span>Resume</span></h2>
+        <p class="resume-subtitle">A live preview of my resume, exactly as it looks on the PDF — no need to download it just to take a look.</p>
+
+        <div class="resume-viewer">
+            <div class="resume-viewer-toolbar">
+                <div class="resume-viewer-toolbar-left">
+                    <i class="fas fa-file-pdf"></i>
+                    <span id="resumeFileName">Mozahid_IT_Engineer.pdf</span>
+                </div>
+                <div class="resume-viewer-toolbar-right">
+                    <span id="resumePageIndicator"></span>
+                    <a href="Mozahid_IT_Engineer.pdf" download class="btn resume-download-btn">Download <i class="fas fa-download"></i></a>
+                </div>
+            </div>
+
+            <div class="resume-pages-wrapper" id="resumePagesWrapper">
+                <div class="resume-loading" id="resumeLoading">
+                    <div class="resume-spinner"></div>
+                    <p>Loading resume preview…</p>
+                </div>
+                <div class="resume-error" id="resumeError" style="display:none;">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <p>Couldn't load the live preview. You can still <a href="Mozahid_IT_Engineer.pdf" download>download the PDF</a> directly.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1199,6 +1350,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
     <script>
         // Mobile menu toggle
@@ -1407,6 +1559,85 @@ function updateVisitorStats() {
 // Run immediately so the online number shows a random value from the start
 updateVisitorStats();
 setInterval(updateVisitorStats, 1000);
+
+        // ========== LIVE RESUME PREVIEW (renders the real PDF, page by page) ==========
+        (function initResumeViewer() {
+            const RESUME_PDF_URL = 'Mozahid_IT_Engineer.pdf';
+            const wrapper = document.getElementById('resumePagesWrapper');
+            const loadingEl = document.getElementById('resumeLoading');
+            const errorEl = document.getElementById('resumeError');
+            const pageIndicator = document.getElementById('resumePageIndicator');
+
+            if (!wrapper || typeof pdfjsLib === 'undefined') return;
+
+            pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+            let hasRendered = false;
+
+            async function renderResume() {
+                if (hasRendered) return;
+                hasRendered = true;
+                try {
+                    // Fetch the bytes ourselves and hand pdf.js the raw data instead of a URL.
+                    // (Passing a relative URL string directly to pdf.js can fail with
+                    // "Invalid PDF url data" depending on how/where the page is being viewed.)
+                    const response = await fetch(RESUME_PDF_URL);
+                    if (!response.ok) {
+                        throw new Error('Could not fetch PDF, HTTP status ' + response.status);
+                    }
+                    const pdfData = new Uint8Array(await response.arrayBuffer());
+
+                    const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+                    const pdf = await loadingTask.promise;
+
+                    if (pageIndicator) {
+                        pageIndicator.textContent = pdf.numPages + (pdf.numPages === 1 ? ' page' : ' pages');
+                    }
+
+                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                        const page = await pdf.getPage(pageNum);
+                        const baseViewport = page.getViewport({ scale: 1 });
+
+                        // Render at higher resolution for crisp text, then let CSS scale it down responsively
+                        const targetWidth = 900;
+                        const scale = targetWidth / baseViewport.width;
+                        const viewport = page.getViewport({ scale });
+
+                        const canvas = document.createElement('canvas');
+                        canvas.className = 'resume-page-canvas';
+                        const context = canvas.getContext('2d');
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+
+                        await page.render({ canvasContext: context, viewport: viewport }).promise;
+                        wrapper.appendChild(canvas);
+                    }
+
+                    if (loadingEl) loadingEl.style.display = 'none';
+                } catch (err) {
+                    console.error('Resume preview failed to load:', err);
+                    if (loadingEl) loadingEl.style.display = 'none';
+                    if (errorEl) errorEl.style.display = 'flex';
+                }
+            }
+
+            // Only load the PDF once the section is actually scrolled into view (saves bandwidth)
+            const resumeSection = document.getElementById('resume');
+            if (resumeSection && 'IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            renderResume();
+                            observer.disconnect();
+                        }
+                    });
+                }, { rootMargin: '200px' });
+                observer.observe(resumeSection);
+            } else {
+                renderResume();
+            }
+        })();
 
         // ========== GOOGLE SHEETS INTEGRATION ==========
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUCRG5lBEt_Uq7bxX4rQtgknujZKPyOf64Z5tNzIJEbnr42UmGBKELGSXsbEV1XvSjiA/exec';
