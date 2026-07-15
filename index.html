@@ -1621,7 +1621,9 @@ setInterval(updateVisitorStats, 1000);
                         const baseViewport = page.getViewport({ scale: 1 });
 
                         // "css scale": the size we want the page displayed at (before device-pixel-ratio sharpening)
-                        const targetWidth = 1100;
+                        // Rendered noticeably higher than the on-screen display size (which tops out around
+                        // 1032px) so small resume text stays crisp instead of looking soft/compressed.
+                        const targetWidth = 1700;
                         const cssScale = targetWidth / baseViewport.width;
                         const viewport = page.getViewport({ scale: cssScale });
 
@@ -1637,8 +1639,10 @@ setInterval(updateVisitorStats, 1000);
                         const context = canvas.getContext('2d');
 
                         // Render at native device pixel ratio so text stays crisp on retina/phone screens,
-                        // while canvas.style keeps the on-page CSS size responsive.
-                        const outputScale = window.devicePixelRatio || 1;
+                        // while canvas.style keeps the on-page CSS size responsive. Capped at 2x so we don't
+                        // combine full oversampling with extreme phone pixel ratios (e.g. 3x) and end up
+                        // with a huge, slow-to-render canvas for no visible benefit.
+                        const outputScale = Math.min(window.devicePixelRatio || 1, 2);
                         canvas.width = Math.floor(viewport.width * outputScale);
                         canvas.height = Math.floor(viewport.height * outputScale);
                         const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
